@@ -1,0 +1,248 @@
+// ENTERTAINMENT NEWS BLOCKLSIT
+
+(
+    (
+        language.tag in "it, es, fr, pt, ca, ro, ru"
+        //and
+        //language.confidence >= 75
+    )
+    or
+    interaction.content contains_any "i, i'm, i'll, me, my, mine, you, we, we're, us, let's, ?, lol, rt if, rt this, rt to, retweet if, retweet this, retweet to, see more here, vote for, vote now, #vote, #rt, #retweet, follow and, follow &"
+    or
+    // to catch voting hashtags like #vote5sos or #voteonedirection
+    interaction.content substr "#vote"
+    or
+    // to catch voting hashtags like #emabiggestfansjustinbieber
+    interaction.content substr "#emabiggest"
+    or
+    (
+        interaction.content contains_any "click"
+        and
+        interaction.content contains_any "here for, here to, see more, to see"
+    )
+    or
+    interaction.content cs contains_any "LOOK"
+    or
+    interaction.author.username substr "fact"
+    or
+    twitter.retweeted.user.screen_name substr "fact"
+    or
+    interaction.author.username substr "fake"
+    or
+    twitter.retweeted.user.screen_name substr "fake"
+    or
+    interaction.author.username substr "not"
+    or
+    twitter.retweeted.user.screen_name substr "not"
+    or
+    interaction.author.username substr "pic"
+    or
+    twitter.retweeted.user.screen_name substr "pic"
+    or
+    interaction.author.username substr "pix"
+    or
+    twitter.retweeted.user.screen_name substr "pix"
+    or
+    interaction.author.username substr "comedy"
+    or
+    twitter.retweeted.user.screen_name substr "comedy"
+    or
+    interaction.author.username substr "joke"
+    or
+    twitter.retweeted.user.screen_name substr "joke"
+    or
+    interaction.author.username substr "parody"
+    or
+    twitter.retweeted.user.screen_name substr "parody"
+    or
+    (
+        interaction.author.username substr "grumpy"
+        and
+        interaction.author.username substr "cat"
+    )
+    or
+    (
+        twitter.retweeted.user.screen_name substr "grumpy"
+        and
+        twitter.retweeted.user.screen_name substr "cat"
+    )
+    or
+    interaction.author.username substr "fun"
+    or
+    twitter.retweeted.user.screen_name substr "fun"
+    or
+    interaction.author.username substr "race"
+    or
+    twitter.retweeted.user.screen_name substr "race"
+    or
+    interaction.author.username substr "racial"
+    or
+    twitter.retweeted.user.screen_name substr "racial"
+    or
+    interaction.author.name substr "common"
+    or
+    twitter.retweeted.user.screen_name substr "common"
+    or
+    (
+        twitter.retweeted.user.screen_name substr "real"
+        and not
+        twitter.retweeted.user.verified exists
+    )
+    or
+    twitter.retweeted.user.description contains_any "fact, facts, history, pic, pics, quote, quotes"
+    or
+    twitter.retweeted.user.description contains_any "fan, fans, fanbase, fanpage"
+    or
+    twitter.retweeted.user.description contains_any "fake, parody, funny, jokes, not affiliated"
+    or
+    twitter.retweeted.user.description contains_any "lyrics"
+    or
+    twitter.retweeted.user.description contains_any "18+, 18 +, 18 and, porn, adult"
+    or
+    links.meta.keywords contains_any "porn"
+    or
+    links.url substr "nude"
+    or
+    links.domain contains_any "4sq.com, adf.ly, zpzp.eu, ift.tt, ad.ams40.com, amazon.com, amazon.co.uk, ebay.com, q.gs, kpopstarz.com, mojahedin.org, allnews24h.com, ohkpop.com, phoship.com, soompi.com, redtube.com, liputan6.com, kapanlagi.com, hotnewstories.org, diddibear.com, theonlinewatchmovies.com, news-you-need-to-know.com, 5-things-you-need-to-know.com, usaheadlines.today, bellanaija.com, naijavibe.net, wildammo.com, gotlinks.co, lindaikeji.blogspot, trendsnaija.blogspot, infotainmentnaija.blogspot, vekotv.blogspot, vekotv5.blogspot, gossip9aija.com, 9ja-ninja.blogspot"
+    or
+    links.normalized_url in "https://facebook.com, http://facebook.com"
+    or
+    links.normalized_url substr "mobilelikez.com"
+    or
+    links.normalized_url substr "myfanpage.org"
+    or
+    twitter.mentions in "actortrivia, autocorrects, DjKingAssassin, dvdinfatuation, imnowillferrell, NoAss_GotGas, RealDreKennedy, StonerFromChina, sbttvratings, stevestfler, tweetlikeaguy, urmindblown, willyferrell, nudecelebnews"
+    or
+    twitter.retweet.mentions in "actortrivia, autocorrects, DjKingAssassin, dvdinfatuation, imnowillferrell, NoAss_GotGas, RealDreKennedy, StonerFromChina, sbttvratings, stevestfler, tweetlikeaguy, urmindblown, willyferrell, nudecelebnews"
+    or
+    twitter.retweeted.user.screen_name in "actortrivia, autocorrects, DjKingAssassin, dvdinfatuation, imnowillferrell, NoAss_GotGas, RealDreKennedy, StonerFromChina, sbttvratings, stevestfler, tweetlikeaguy, urmindblown, willyferrell, nudecelebnews"
+    or
+    // spam accounts
+    (
+        (           
+            twitter.retweeted.user.friends_count <= 10
+            or
+            twitter.retweeted.user.follower_ratio >= 10
+            or
+            (
+                (
+                    interaction.content contains_any "leaked, naked, nude, pregnant, sex, shocking"
+                    or
+                    interaction.content cs contains_any "DEAD"
+                )
+                and
+                links.url exists
+            )
+            or
+            twitter.possibly_sensitive exists
+            or
+            twitter.retweet.possibly_sensitive exists
+        )
+        and not
+        twitter.retweeted.user.verified == 1
+    )
+    or
+    twitter.mentions wildcard "*uminati"
+    or
+    twitter.retweet.mentions wildcard "*uminati"
+    or
+    twitter.retweeted.user.screen_name wildcard "*uminati"
+    or
+    twitter.retweet.user.screen_name wildcard "*uminati"
+    or
+    twitter.user.screen_name wildcard "*uminati"
+    or
+    // De-asianfy
+    //
+    //
+    // keywords
+    interaction.content contains_any "soompi, jyp, mojahedin, exo, exo's, exos"
+    or
+    // user handles
+    interaction.author.username substr "exo"
+    or
+    twitter.retweeted.user.screen_name substr "exo"
+    or
+    // user descriptions
+    twitter.retweeted.user.description contains_any "kpop, k-pop, k pop, korea, korean"
+    or
+    twitter.retweeted.user.description contains_any "bollywood, india, indian, hindu, chennai"
+    or
+    twitter.retweeted.user.description contains_any "nollywood"
+    or
+    twitter.retweeted.user.description contains_any "china, chinese"
+    or
+    twitter.retweeted.user.description contains_any "japan, japanese"
+    or
+    twitter.retweeted.user.description contains_any "asia, asian"
+    or
+    // geo
+    interaction.geo geo_polygon "44.465151013519616,80.5078125:46.49839225859763,148.974609375:-10.487811882056695,122.87109375:-0.7031073524364783,19.51171875:41.508577297439324,23.37890625"
+    or
+    twitter.place.full_name contains_any "international, worldwide, beijing, china, taipei, taiwan, seoul, korea, india, chennai, delhi, mumbai, bollywood, singapore, bangkok, thailand, manila, philippines, jakarta, indonesia"
+    or
+    twitter.retweet.user.location contains_any "international, worldwide, beijing, china, taipei, taiwan, seoul, korea, india, chennai, delhi, mumbai, bollywood, singapore, bangkok, thailand, manila, philippines, jakarta, indonesia"
+    or
+    twitter.retweeted.user.location contains_any "international, worldwide, beijing, china, taipei, taiwan, seoul, korea, india, chennai, delhi, mumbai, bollywood, singapore, bangkok, thailand, manila, philippines, jakarta, indonesia"
+    or
+    twitter.retweeted.place.full_name contains_any "international, worldwide, beijing, china, taipei, taiwan, seoul, korea, india, chennai, delhi, mumbai, bollywood, singapore, bangkok, thailand, manila, philippines, jakarta, indonesia"
+    or
+    // Han - Chinese
+    // Hangul - Korean
+    // Devanagari and Sinhala - Indian, use if needed
+    twitter.retweeted.user.description regex_partial "\\p{Han}" 
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Hangul}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Thai}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Khmer}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Yi}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Mongolian}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Malayalam}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Lao}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Katakana}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Cyrillic}"
+    or
+    twitter.retweeted.user.name regex_partial "\\p{Cyrillic}"
+    or
+    // websites
+    links.meta.keywords contains_any "kpop, k-pop, kpop, allkpop, k-drama, korea, korean, india, indian, bollywood, nollywood, jpop, j-pop, japan, japanese, asian"
+    or
+    links.meta.newskeywords contains_any "kpop, k-pop, kpop, allkpop, k-drama, korea, korean, india, indian, bollywood, nollywood, jpop, j-pop, japan, japanese, asian"
+    // users
+    or
+    twitter.mentions in "PAKURUMOdotCOM, soompi, allkpop, abscbn_showbiz, hindotalkies, thevijay360, sksmediabaku, Saj_PakPassion, idlebrainjeevi, tfu_kannan, sri50"
+    or
+    twitter.retweet.mentions in "PAKURUMOdotCOM, soompi, allkpop, abscbn_showbiz, hindotalkies, thevijay360, sksmediabaku, Saj_PakPassion, idlebrainjeevi, tfu_kannan, sri50"
+    or
+    twitter.retweeted.user.screen_name in "PAKURUMOdotCOM, soompi, allkpop, abscbn_showbiz, hindotalkies, thevijay360, sksmediabaku, Saj_PakPassion, idlebrainjeevi, tfu_kannan, sri50"
+    or
+    //international countries
+    twitter.user.location contains_any "jamaica, nigeria, singapore, trinidad, tobago, guyana, bahamas, barbados, belize, grenadines, brenada, antigua, barbuda, dominica, saint kitts, st kitts, st. kitts, nevis, cook islands, india, brazil, brasil"
+    or
+    twitter.retweeted.user.location contains_any "jamaica, nigeria, singapore, trinidad, tobago, guyana, bahamas, barbados, belize, grenadines, brenada, antigua, barbuda, dominica, saint kitts, st kitts, st. kitts, nevis, cook islands, india, brazil, brasil"
+    or
+    twitter.retweet.user.location contains_any "jamaica, nigeria, singapore, trinidad, tobago, guyana, bahamas, barbados, belize, grenadines, brenada, antigua, barbuda, dominica, saint kitts, st kitts, st. kitts, nevis, cook islands, india, brazil, brasil"
+    or
+    twitter.place.full_name contains_any "jamaica, nigeria, singapore, trinidad, tobago, guyana, bahamas, barbados, belize, grenadines, brenada, antigua, barbuda, dominica, saint kitts, st kitts, st. kitts, nevis, cook islands, india, brazil, brasil"
+    or
+    twitter.retweeted.place.full_name contains_any "jamaica, nigeria, singapore, trinidad, tobago, guyana, bahamas, barbados, belize, grenadines, brenada, antigua, barbuda, dominica, saint kitts, st kitts, st. kitts, nevis, cook islands, india, brazil, brasil"
+    or
+    //international cities
+    twitter.user.location contains_any "roseau, basseterre, avarua, new delhi, mumbai, brasilia, sao paulo, Rio de Janeiro"
+    or
+    twitter.retweeted.user.location contains_any "roseau, basseterre, avarua, new delhi, mumbai, brasilia, sao paulo, Rio de Janeiro"
+    or
+    twitter.retweet.user.location contains_any "roseau, basseterre, avarua, new delhi, mumbai, brasilia, sao paulo, Rio de Janeiro"
+    or
+    twitter.place.full_name contains_any "roseau, basseterre, avarua, new delhi, mumbai, brasilia, sao paulo, Rio de Janeiro"
+    or
+    twitter.retweeted.place.full_name contains_any "roseau, basseterre, avarua, new delhi, mumbai, brasilia, sao paulo, Rio de Janeiro"
+)

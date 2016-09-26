@@ -1,0 +1,74 @@
+interaction.type == "twitter"
+and
+(
+    (
+        interaction.content regex_partial "(?i)((protesters |protestors |demonstrators |demonstrators |rioters)(block |shut |gather |are now |blocking |shutting |loot |burn |looting |burning |knocking |knock |clash |clashing |at |in |on |just |walk |walking |occupy |occupying |raising |staging |fighting |setting fire |tipping |rolling |crashing |arriving |standing |spreading |breaking |gathering ))|(((there('s |s | is |'re | are | was ))|(see |saw |hear |heard ))(a |an )?(((protest |protesting |protests |riots)(today |right now |now |rn |at |in |on ))|(occupation |occupy |demonstration |demonstrations |mob |mobs |crowd |crowds |riot |riots |rally )))"
+        or
+        interaction.content contains_any "walkout, sit-in, walk-out, walkouts, walk-outs, walk outs, sit ins, sit-ins, sitins"
+        or
+        (
+            interaction.content contains_any "tear gas, riot gear"
+            and
+            interaction.content contains_any "police, policemen, policewomen, cops, the po-po, the popo, the po po, the fuzz, the pigs, some pigs"
+        )
+    )
+    and
+    //Temporal
+    (
+        interaction.content contains_any "just, now, rn, today, tonight"
+        or
+        //Locative
+        interaction.content contains_any "here, school, campus, street, streets, st, blvd, ave, boulevard, avenue, window, windows, plaza, quad, commons, building, intersection, intersections, cross-street, cross-streets, crossstreet, crossstreets"
+    )
+)
+/*
+(
+    
+    or
+    //Abbreviations & Exclamations
+    interaction.content contains_any "wow, omg, ohmygod, oh my god, omigod, omygod, oh my gosh, ohmygosh, omigosh, omygosh, wtf, whatthefuck, wth, whatthehell, smh, smfh, smmfh, scary, scared, wild, crazy"
+    or
+    //confusion
+    interaction.content contains_any "what's going on, whats going on, whats goin on, what's happening, whats happening, what happened, what's up, whats up"
+    or
+    //violence
+    interaction.content contains_any "unruly, massive, violent, violence, clash, clashes, clashing, looting, burning, arson, setting fire, setting fires, spreading, fighting, fight, knocked over, knock over, knocking over, crashing, crash, crashed, rolling, rolled, tipping, tip over, tipped over, broke, break"
+)*/
+and     
+language.tag in "en"
+//and language.confidence >= 95
+and not
+(
+    //off-topic language
+    interaction.content contains_any "pep rally, prep rally, riot act, riot grrrl, rally club, rally's, to rally, playlist, music, electronica, electrohouse, rally the troops, rally their troops, rally car, will rally, must rally, can rally, can't rally, won't rally, mustn't rally, not rally, should rally, shouldn't rally, youth rally, tough mudder"
+    or
+    (
+        interaction.content contains_any "rally"
+        and
+        interaction.content contains_any "dance"
+    )
+    or
+    //other languages
+    (
+        language.tag contains_any "it, es, fr, pt, ca, ro, tl"
+    )
+    or
+    //links, except for pictures
+    (
+        links.url exists
+        and not
+        links.domain contains_any "instagram.com, pic.twitter.com, youtube.com, vine.co"
+    )
+    or
+    //Positive sentiment markers & jokes - note: prefer to have a script identifying emoticons and positive sentiment automatically
+    (
+        interaction.content contains_any "hilarious, funny, awesome, great, good, wonderful, amazing, laughing, best, perfect, jk, lol, lols, lolz, lqtm, rotfl, rotflmao, roftlmfao, naw, nah, nahh, :-), :), (:, (-:, ;), ;-), (;, (-;, :D, :-D, (=, (-=, =), =-), :'), :'-)"
+    )
+    or
+    //off-topic context
+    interaction.content contains_any "RT, update:, live, watch, breaking:, the news, tv, on cnn, on fox, on abc, on nbc, on cbs, on bbc"
+    or
+    stream "news/eyewitness/shared/eyewitness_blocklist.csdl"
+    or
+    stream "local/shared/reporter_keywords_handles.csdl"
+)

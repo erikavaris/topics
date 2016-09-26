@@ -1,0 +1,24 @@
+// metadata fields from local general blocklist, media blocklist, news blocklist, and business blocklist
+links.meta.opengraph.title contains_any "2k14, 2k15, madden 14, madden 25, madden 15, maddend14, madden15, madden25, xbox, ps4, playstation, easports, ea sports, fifa15, fifa14, fifa '15, fifa '14, nhl '15, nhl15, nhl '14, nhl14, xbox, ps4, nba2k15, nba2k14, gameplay, video game, videogame, videogames, video games, job search, sociedade lunar, godaddy email on iphone, golden rule, art for btwfoundation"
+or
+links.title contains_any "ticket, tickets, tix, tixs, gameplay, trailer, madden 14, madden 25, madden 15, madden14, madden15, madden25, xbox, ps4, playstation, nhl '15, nhl 15, nhl15, nhl15, nhl 15, fifa 15, fifa15, xbox, ps4,one direction, onedirection, 1 D, 1D, job search, sociedade lunar, godaddy email on iphone, golden rule, art for btwfoundation"
+or
+links.meta.keywords contains_any "career, careers, job, jobs, hiring, porn"  
+or
+links.meta.newskeywords contains_any "career, careers, job, jobs, hiring"
+or
+links.title regex_partial "\\p{Arabic}"
+or
+// Music Videos and TV Shows
+(
+    links.meta.opengraph.site_name contains "YouTube"
+    and
+    (
+        links.meta.opengraph.title contains_any "episode, ep, ep., feat, ft, featuring, HD, instrumental, lyrics, music video, official video, remix, single, song, soundtrack"
+        or
+        links.meta.opengraph.description contains_any "episode, ep, ep., feat, ft, featuring, HD, instrumental, lyrics, music video, official video, remix, single, song, soundtrack"
+        or
+        links.meta.opengraph.title regex_partial "\\p{Arabic}"
+    )
+)
+

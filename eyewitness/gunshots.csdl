@@ -1,0 +1,80 @@
+interaction.type == "twitter"
+and
+(
+    interaction.content contains_any "seen a shooting, saw a shooting,  gunshots fired, gun shots fired, heard a shooting, hear a shooting, there's a shooting, theres a shooting, there was a shooting, there's shooting, theres shooting, there's a shootout, theres a shootout"
+    or
+    interaction.content regex_partial "(we are|we're|i am|i'm) (on|in) (lockdown|lock down)"
+    or 
+    interaction.content regex_partial "some(body |one )(just )*(\\w* ){3}((firing|shooting|shot\\b)|(opened fire))"
+    or
+    interaction.content regex_partial "hear(d*) (\\w* ){3}(gunshot(s*)|gun shot(s*))"
+
+)
+and
+(
+    //first person
+    interaction.content contains_any "i"
+    or
+    //Locative
+    interaction.content contains_any "hood, neighborhood, work, home, house, here, office, school, campus, apartment"
+    or
+    //Temporal
+    interaction.content contains_any "just, now, rn"
+    or
+    interaction.content wildcard "sh*t, f*k"
+    or
+    //Punctuation - note: this will also catch exaggerated/extended/combined ones like "!!!!!" or "?!"
+    interaction.content contains_any "!"
+    or
+    //Abbreviations & Exclamations
+    interaction.content contains_any "wow, omg, ohmygod, oh my god, omigod, omygod, oh my gosh, ohmygosh, omigosh, omygosh, wtf, whatthefuck, wth, whatthehell, smh, smfh, smmfh"
+    or
+    //Negative sentiment markers
+    interaction.content contains_any ":-(, :(, ;-(, ;(, :=(, ;=(, ):, )-:, );, )-;, )=:, )=;, :o, :-o, :=o, :-O, :O, :=O"
+)
+and     
+language.tag in "en"
+and not
+(
+    //Romance languages
+    (
+        language.tag contains_any "it, es, fr, pt, ca, ro"
+        //and
+        //language.confidence >= 90
+    )
+    or
+    //links, except for pictures
+    (
+        links.url exists
+        and not
+        links.domain contains_any "instagram.com, pic.twitter.com"
+    )
+    or
+    //Positive sentiment markers & jokes - note: prefer to have a script identifying emoticons and positive sentiment automatically
+    (
+        interaction.content contains_any "hilarious, funny, awesome, great, good, wonderful, amazing, laughing, best, perfect, jk, lol, lols, lolz, lqtm, rotfl, rotflmao, roftlmfao, naw, nah, nahh, :-), :), (:, (-:, ;), ;-), (;, (-;, :D, :-D, (=, (-=, =), =-), :'), :'-)"
+    )
+    or
+    //wrong T, PoS
+    interaction.content contains_any "i shot, i was shooting, i'm shooting, im shooting, shot glass, shot me, what if, would, would've, woulda, wouldn't, wouldnt, hate when, always, never, should be, remember when, a shame, get someone shot, get somebody shot, i thought, gonna get shot, gunna get shot, going to get shot, will get shot, 'll get shot, wants to get shot, wanna get shot, bout to get shot, about to get shot, of got shot, ve got shot, a got shot, shooting for, shot for, tryna get shot, trying to get shot, take shot with"
+    or
+    //non-crime context
+    interaction.content contains_any "firework, fireworks, fire work, fire works, firecrackers, firecracker, shooting star, shooting stars, shooting start, shooting stat, shooting sta, cover request, cover requests, screen shots, screen shot, screen shooting, back firing, back-firing, tornado, hurricane, mug shot, bbs, bb's, bb gun, b-b gun, bebe gun, beebee, paint ball, paintball, paint-ball, drink, drinking, drunk, booze, cocktails, beer, whiskey, vodka, craps, dice, wildlife, deer, coyotes, coons, raccoons, possums, pigeons, grouse, birds, bear, bears, boar, boars, lead shot, day of shooting, week of shooting, hunger games, hungergames, zombies, zombie, trilogy, porn, finale, episode, ep, ep., anime, music, vlog, vid, video, videos, musicvideo, scene, scenes, canon, nikon, shots fired, glamor shots, glamour shots, shogun, taking shots, take shots, shooting daggers, %, bow, bows, arrow, arrows, wwe, a one shot, one-shot, 1 shot, 1-shot, selfie, selfies, group shot, group shots, snap shot, snap shots, action shot, action shots, angle shot, angle shots, spin shot, spin shots, head shot, head shots, dress shot, dress shots, jello shot, jello shots, ass shot, ass shots, body shot, body shots, solo shot, long shot, espresso, coffee, Starbucks, shot down, fun and games, fun an games, fun n games, fun & games, shooting range, screen shotting, screen shotted, screen-shotting, screen-shotted, dreamt, dreamed, dream, funny joke, funniest joke, retweet, ride shotgun, ride shot gun, shota, shotas, cat, kitty, dog, dalmatian, golden retriever, labrador, world cup, pellet, pellets, cows, heroine, black tar, crack, smack, h, junk, china white, fix, mother pearl, roids, dbols, ice, crystal, crank, skag, horse, drug, drugs, cheap shot, cheap shots, i'm staring at the moon, create their own, create your own, crossbow, call shot, call shots, shooting the moon, throw shots, my wish, in the foot, pic, pics, asteroid, have shotgun, get shotgun, got shotgun, had shotgun, has shotgun, gets shotgun, insulin, take me shooting, go shooting, shooting pain, shooting pains, polaroid, polaroids, flop shot, flip shot, flop shots, flip shots, pvp, drill, buys me, buy me, camera, camcorder, energy shot, shot of caffeine, shot of energy, flu shot, flu shots, practice shots, practice shot, celebratory shots, celebratory shot, shooting a movie, take shot, take a shot, take shots, commercial, trailer, preview, on cnn, the news, on fox, on abc, no shot with, late to the block, snapchat, photoshoot, photoshoots, clear shot, clear shots, promotional, promo"
+    or
+    //wildcard non-crime context
+    interaction.content wildcard "bitch *u w*t, wit* me shooti*, lolol*, lmao*, lmfao*, haha*, im*a shooter, y*u a shooter, shooti* th* sh*t, a shooting star*"
+    or
+    interaction.content regex_partial "(a |that |this |my |your |her |his |their )shot"
+    or
+    interaction.content regex_partial "lo(o)+l\\b"
+    or
+    interaction.content regex_partial "sta+r+\\b"
+    or
+    interaction.content regex_partial "(if |If ).+(shot\\b|shots\\b|shooting\\b)"
+    or
+    twitter.user.description contains_any "gamer, games, gaming"
+    or
+    stream "news/eyewitness/shared/eyewitness_blocklist.csdl"
+    or
+    stream "local/shared/reporter_keywords_handles.csdl"
+)

@@ -1,0 +1,90 @@
+interaction.type == "twitter"
+and
+(
+    interaction.content contains_any "saw, seen, heard, hear"
+    and
+    (
+        interaction.content contains_any "high speed chase, car chase, police chase, helicopter, helicopters, copters, ghetto bird, ghetto birds, chopper, choppers, policechopper, policechoppers, firemen, ambulance, ambulances, fire trucks, firetrucks, fire truck, firetruck, fire engine, fire engines, EMT, EMTs, emergency vehicle, emergency vehicles, paramedics, paramedic, swat team, active crime scene, active crime scenes, police tape, police escort, police blocked, police have blocked, police blocking, police roadblock, police roadblocks, police road block, police road blocks, police road-block, police road-blocks, motorcade"
+        or
+        (
+            interaction.content contains_any "siren, sirens"
+            and not
+            interaction.content contains_any "song, test, drill, track, album, concert, radio, cd, music, show, songs, ringtone, band"
+        )
+        or
+        interaction.content regex_partial "(\\d+(\\+)? |-one |-two |-three |-four |five |six |seven |eight |nine |ten |eleven |twelve |thirteen |fourteen |fifteen |sixteen |seventeen |eighteen |nineteen |lot of |lotsa |lots of |loads of |several |many |number of |hella )(\\w+ )?(police |policemen |cops |cop cars)" 
+    )
+    //take out general police words: police, policeman, policewoman, policemen, cop, cops, the po-po, the popo, the po po, the fuzz, the pigs, some pigs,
+
+)
+and
+(
+    //Locative
+    interaction.content contains_any "hood, neighborhood, work, home, house, here, office, school, campus, apartment, street"
+    or
+    //Temporal
+    interaction.content contains_any "just, now, rn, today, tonight"
+    or
+    //Abbreviations & Exclamations
+    interaction.content contains_any "wow, omg, ohmygod, oh my god, omigod, omygod, oh my gosh, ohmygosh, omigosh, omygosh, wtf, whatthefuck, wth, whatthehell, smh, smfh, smmfh, scary, scared, terrifying, what's going on, whats going on, whats goin on, what's happening, whats happening, what happened, what is happening, what's up, whats up, wild, crazy, !, weird, literally"
+)
+and     
+language.tag in "en"
+//and language.confidence >= 95
+and not
+(
+    //Romance languages
+    (
+        language.tag contains_any "it, es, fr, pt, ca, ro"
+    )
+    or
+    //links, except for pictures
+    (
+        links.url exists
+        and not
+        links.domain contains_any "instagram.com, pic.twitter.com, youtube.com, vine.co"
+    )
+    or
+    //Positive sentiment markers & jokes - note: prefer to have a script identifying emoticons and positive sentiment automatically
+    /*(
+        interaction.content contains_any "hilarious, funny, awesome, great, good, wonderful, amazing, laughing, best, perfect, jk, lol, lols, lolz, lqtm, rotfl, rotflmao, roftlmfao, naw, nah, nahh, :-), :), (:, (-:, ;), ;-), (;, (-;, :D, :-D, (=, (-=, =), =-), :'), :'-)"
+    )
+    or*/
+    //off-topic context
+    interaction.content contains_any "mall cop, mall cops, let's be cops, lets be cops, movie, movies, video, vid, videos, film, films, meme, memes, gif, gifs, to cop, gonna cop, hafta cop, must cop, would cop, could cop, cop to, cop a, cop an, cop that, cop this, cop the, cop those, cop these, cop it, cop them, cop you, cop some, copped, cop'd, cop up, ain't cop, didn't cop, aint cop, didnt cop, not cop, wouldn't cop, wouldnt cop, couldn't cop, couldnt cop, hot, attractive, cute, sexy, hottest, cutest, sexiest, baddest, finest, fine af, fittest, prettiest, handsome, handsomest, gorgeous, cop out, cop-out, cop outs, cop-outs, police me, police them, police it, cops marathon, police academy, on cops, episode, episodes, tv, television, inferno cop, sleeping with sirens, x-cops, siren song, saw the article, saw an article, saw an interview, saw the interview, saw the press conference, saw a press conference, texting, text and drive, text while driving, price chopper, cult siren, on cnn, the news, on fox, on abc, sirens burning, grammar police, fashion police, commercial, trailer, preview, kindergarten cop, footage, heard a story, seen a story, heard the story, seen the story, article, articles, saw a photo, seen a photo, snapchat, helicopter mom, helicopter moms, footage, siren-like"
+    or
+    //lyrics
+    interaction.content contains_any "i go home and i lock my door i can hear the sirens, i go home and i lock my door \, i can hear the sirens, doubt they'll hear me when i shout, doubt theyll hear me when i shout, obsessed with silence"
+    or
+    //music
+    (
+        interaction.content contains_any "sting, backstage, on stage, in concert, intro of ambulance"
+        or
+        (
+            interaction.content contains_any "sirens"
+            and
+            interaction.content contains_any "cd, music, show, song, songs, ringtone, band"
+        )
+    )
+    or
+    //videogame reference?
+    (
+        interaction.content contains_any "chopper, choppers"
+        and
+        interaction.content contains_any "alliance, horde"
+    )
+    or
+    //call the cops jokes
+    (
+        interaction.content contains_any "call the cops, call the police"
+        and not
+        interaction.content contains_any "policeman, policewoman, policemen, cop, high speed chase, car chase, the po-po, the popo, the po po, the fuzz, the pigs, some pigs, helicopter, helicopters, copters, ghetto bird, ghetto birds, chopper, choppers, policechopper, policechoppers, firemen, ambulance, ambulances, fire trucks, firetrucks, fire truck, firetruck, fire engine, fire engines, EMT, EMTs, emergency vehicle, emergency vehicles, paramedics, paramedic, shooting, got shot, robbed, mugged, stabbed, broke in, in the house, in the apartment, in my apartment, in my house"
+    )
+    or
+    //old news
+    interaction.content contains_any "last night, last week, weeks ago, months ago, years ago"
+    or
+    stream "news/eyewitness/shared/eyewitness_blocklist.csdl"
+    or
+    stream "local/shared/reporter_keywords_handles.csdl"
+)

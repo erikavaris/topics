@@ -1,0 +1,8 @@
+//
+//Blocked List Sites
+//
+(
+	links.domain in "ebay.com,4sq.com,amazon.com,q.gs,ticketmaster.com,adf.ly,theonion.com,foursquare.com,ticketliquidator.com,ticketingcentral.com"
+	or
+ 	interaction.content contains_any "ass,asses,asshole,assholes,bastard,bastards,bitch,bitches,bitchass,bitchy,bullshit,cock,cocks,cunt,dick,dicks,dipshit,douche,douchebag,douchebags,dumbass,fag,faggot,fags,faggotts,fuck,fucked,fucking,ducker,fuckers,fucks,gay,gays,homo,jackass,jizz,kunt,lesbo,lezbo,mothafucka,motherfucker,mothafuckas,motherfuckers,nigga,niggas,niggaz,penis,poon,poontang,pussies,pussy,queer,queers,shit,shits,shitfaced,shitting,shitty,skank,skanks,slut,sluts,slutty,suckass,tits,twat,twats,whore,whores"
+)

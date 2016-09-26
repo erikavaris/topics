@@ -1,0 +1,174 @@
+(
+    interaction.content contains_any "lewis katz, lewiskatz, video game, just cause, call of duty,  cod,  ghost,  ghosts,  walking dead, breaking bad, grand theft auto, gta, grandtheftauto, remix, song, songs, remixes, horoscope,  aries,  taurus,  gemini,  cancer,  leo,  virgo,  libra,  scorpio,  sagittarius,  capricorn,  aquarius,  pisces,  best new country,  of tears, ca$h, coba,  ca$h coba, on this day,  on this date,  this day,  this date,  today in,  day in,  reflect,  reflecting,  imagine,  imagining,  look back on,  looking back on,  official video,  minecraft, please,  god bless,  heartbreak,  heartbreaking,  thinking of, charity,  charities,  heart,  heartache,  grief,  grieving,  sad,  sadness,  do my part,  do one'es part,  in case,  pray,  prayers,  praying,  donate,  donation,  donations,  donating, episode, episodes, show, tv shows, character, characters, guest star, guest stars, cast, casting, spoil, spoiler, spoilers, season, seasons, opening scene, end scene,  kill it,  kills it,  killed it,  killing it,  killin it,  killin' it, facialize, facializing, facialized, deepthroat, deep throat, xxx"
+    or
+    twitter.mentions in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN"
+    or
+    twitter.retweet.mentions in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN"
+    or
+    twitter.retweeted.user.screen_name in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN, yeremiix3"
+)
+or
+(
+    interaction.author.username substr "history"
+    or
+    twitter.retweeted.user.screen_name substr "history"
+    or
+    interaction.author.username substr "pic"
+    or
+    twitter.retweeted.user.screen_name substr "pic"
+    or
+    interaction.author.username substr "fact"
+    or
+    twitter.retweeted.user.screen_name substr "fact"
+    or
+    interaction.author.username substr "comedy"
+    or
+    twitter.retweeted.user.screen_name substr "comedy"
+    or
+    interaction.author.username substr "joke"
+    or
+    twitter.retweeted.user.screen_name substr "joke"
+    or
+    interaction.author.username substr "humor"
+    or
+    twitter.retweeted.user.screen_name substr "humor"
+    or
+    (
+        interaction.author.username substr "grumpy"
+        and
+        interaction.author.username substr "cat"
+    )
+    or
+    (
+        twitter.retweeted.user.screen_name substr "grumpy"
+        and
+        twitter.retweeted.user.screen_name substr "cat"
+    )
+    or
+    interaction.content substr "walking dead"
+    or
+    interaction.content substr "walkingdead"
+)
+or
+links.domain contains_any "alerts.weather.gov, twitzip.com, theonion.com, ebay.com, 4sq.com, amazon.com, q.gs, adf.ly, mojahedin.org, allnews24h.com, ticketmaster.com, foursquare.com, ticketliquidator.com, ticketingcentral.com, etsy.com, pinterest.com, indeed.com, news-you-need-to-know.com, gotlinks.co, ad.ams40.com, zpzp.eu, ift.tt"
+or
+links.normalized_url in "https://facebook.com, http://facebook.com"
+or
+links.normalized_url substr "mobilelikez.com"
+or
+links.normalized_url substr "myfanpage.org"
+or 
+(
+    interaction.content contains_any "aid,relief,hope,hopes,hoping"
+    and
+    interaction.content contains_any "help,helps,helping,contribute,contributed,text"
+)
+or
+// spam accounts
+(
+    (
+        // blocking the individual user
+        twitter.user.friends_count <= 3
+        or
+        twitter.user.followers_count <= 3
+    )
+    and not
+    twitter.user.verified == 1
+)
+or
+(
+    (
+        // blocking the RTed user
+        twitter.retweeted.user.friends_count <= 3
+        or
+        twitter.retweeted.user.followers_count <= 3
+    )
+    and not
+    twitter.retweeted.user.verified == 1
+)
+or
+(
+    (
+        // blocking the user who is RTing
+        twitter.retweet.user.friends_count <= 3
+        or
+        twitter.retweet.user.followers_count <= 3
+    )
+    and not
+    twitter.retweet.user.verified == 1
+)
+// Found large numbers of Arabic sources are news spam, remove here
+or
+(
+    twitter.user.description regex_partial "\\p{Arabic}"
+    or
+    twitter.retweeted.user.description regex_partial "\\p{Arabic}"
+    or
+    twitter.user.name regex_partial "\\p{Arabic}"
+    or
+    twitter.retweeted.user.name regex_partial "\\p{Arabic}"
+)
+or
+(
+    links.meta.opengraph.site_name contains "YouTube"
+    and
+    links.meta.opengraph.title regex_partial "\\p{Arabic}"
+)
+or
+(
+    interaction.content contains_near "text, to: 4"
+    or
+    interaction.content contains_near "send, love: 4"
+    or
+    interaction.content contains_near "love, support: 4"
+    or
+    interaction.content contains_near "day, history: 4"
+    or
+    interaction.content contains_near "date, history: 4"
+    or
+    interaction.content contains_any  "obama, bitch, vibe"
+    or
+    interaction.content contains_near "abortion,murder:4"
+    or
+    interaction.content contains_near "television,series:4"
+    or
+    interaction.content contains_near "kill, time: 4"
+    or
+    interaction.content contains_near "kills, time: 4"
+    or
+    interaction.content contains_near "killing, time: 4"
+    or
+    interaction.content contains_near "killed, time: 4"
+)
+or
+(
+    interaction.content contains_any "black girls"
+    and
+    interaction.content contains_any "get away"
+)
+or
+interaction.content contains_any "#todayinhistory, #history, #historyfacts, #worldhistory101, #historyinpix, #historypics, #yeremiito21"
+or
+(
+    twitter.user.description contains_any "hadith, islam, muslim, buddhism, buddhist, muhhamded, koran, quran, christianity, catholic, jewish, christian, religion, religious"
+    and
+    twitter.user.description contains_any "quote, quotes, literature, poem, speak, word, life, belief"
+)
+or
+(
+    twitter.retweeted.user.description contains_any "hadith, islam, muslim, buddhism, buddhist, muhhamded, koran, quran, christianity, catholic, jewish, christian, religion, religious"
+    and
+    twitter.retweeted.user.description contains_any "quote, quotes, literature, poem, speak, word, life, belief"
+)
+or
+(
+    twitter.user.description contains_any "school, schools, junior high, college, colleges,  university, universities, campus, campuses,  prep, preparatory, christian, catholic, jewish, religous, team, sport, lockerroom, gym, baseball, football, basketball, lacrosse, soccer, buddhism, buddhist"
+    and
+    twitter.user.description contains_any "confession, confessions, confessional, secret, story, life story, anonymous, anonymously"
+)
+or
+(
+    twitter.retweeted.user.description contains_any "school, schools, junior high, college, colleges,  university, universities, campus, campuses,  prep, preparatory, christian, catholic, jewish, religous, team, sport, lockerroom, gym, baseball, football, basketball, lacrosse, soccer, buddhism, buddhist"
+    and
+    twitter.retweeted.user.description contains_any "confession, confessions, confessional, secret, story, life story, anonymous, anonymously"
+)

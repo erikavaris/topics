@@ -1,0 +1,99 @@
+(   
+    (
+   
+        interaction.content contains_any "video game,just cause,call of duty, cod, ghost, ghosts, walking dead,breaking bad,grand theft auto,gta,grandtheftauto,remix,song,songs,remixes,horoscope, aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces, best new country, of tears,ca$h,coba, ca$h coba,on this day, on this date, this day, this date, reflect, reflecting, imagine, imagining, look back on, looking back on, official video, minecraft,please, god bless, heartbreak, heartbreaking, thinking of,charity, charities, heart, heartache, grief, grieving, sad, sadness, do my part, do one'es part, in case, pray, prayers, praying, donate, donation, donations, donating,episode,episodes,show,tv shows,character,characters,guest star,guest stars,cast,casting,spoil,spoiler,spoilers,season,seasons,opening scene,end scene, kill it, kills it, killed it, killing it"
+        or
+   
+        twitter.mentions in "WW2Facts, centuryagotoday, TodayinLDShist,  todaysdocument, theonion,sickipediabot, murderprobs, mjjpeace, bieberrkfc, uberfacts, femalegossip, hammeroffacts, mostsecretfacts, bestprohumor, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, whattheffacts, fact, unrevealedfacts, qikipedia,omgfacts, googleearthpics, upworthy, neverknownfacts, facts_guide, factsprofessor, theracedraft, the_race_draft, notsportscenter, injusticefacts, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage,tedofficialpage,grumpyycat,sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN, history_pics"
+        or
+   
+        twitter.retweet.mentions in "WW2Facts, centuryagotoday, TodayinLDShist,  todaysdocument,theonion,sickipediabot, murderprobs, mjjpeace, bieberrkfc, uberfacts, femalegossip, hammeroffacts, mostsecretfacts, bestprohumor, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, whattheffacts, fact, unrevealedfacts, qikipedia,omgfacts, googleearthpics, upworthy, neverknownfacts, facts_guide, factsprofessor, theracedraft, the_race_draft, notsportscenter, injusticefacts, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage,tedofficialpage,grumpyycat,sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN, history_pics"
+        or
+   
+        twitter.retweeted.user.screen_name in "WW2Facts, centuryagotoday, TodayinLDShist,  todaysdocument,theonion,sickipediabot, murderprobs, mjjpeace, bieberrkfc, uberfacts, femalegossip, hammeroffacts, mostsecretfacts, bestprohumor, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, whattheffacts, fact, unrevealedfacts, qikipedia,omgfacts, googleearthpics, upworthy, neverknownfacts, facts_guide, factsprofessor, theracedraft, the_race_draft, notsportscenter, injusticefacts, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage,tedofficialpage,grumpyycat,sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN, history_pics" 
+    )
+
+    or
+
+    (
+        interaction.content contains_any "aid,relief,hope,hopes,hoping"
+        and
+        interaction.content contains_any "help,helps,helping,contribute,contributed,text"
+    )
+
+    or
+
+    (
+        interaction.content contains_near "text, to: 4"
+        or
+        interaction.content contains_near "send, love: 4"
+        or
+        interaction.content contains_near "love, support: 4"
+        or
+        interaction.content contains_near "day, history: 4"
+        or
+        interaction.content contains_near "date, history: 4"
+        or
+        interaction.content contains_any  "obama, bitch, vibe"
+        or
+        interaction.content contains_near "abortion,murder:4"
+        or
+        interaction.content contains_near "television,series:4"
+        or
+        interaction.content contains_near "kill, time: 4"
+        or
+        interaction.content contains_near "kills, time: 4"
+        or
+        interaction.content contains_near "killing, time: 4"
+        or
+        interaction.content contains_near "killed, time: 4"
+    )
+    
+    or
+    
+    (
+        interaction.content contains_any "black girls"
+        and
+        interaction.content contains_any "get away"
+    )
+    
+    or
+    
+    interaction.content contains_any "today in,day in"
+    
+    or
+    
+    twitter.hashtags in "todayinhistory, history, historyfacts, worldhistory101, historyinpix, historypics"
+    
+    or
+    
+    (
+        twitter.user.description contains_any "hadith, islam, muslim, muhhamded, koran, quran, christianity, catholic, jewish, christian, religion, religious"
+        and
+        twitter.user.description contains_any "quote, literature, poem, speak, word, life, belief"
+    )
+    
+    or
+    
+    (
+        twitter.retweeted.user.description contains_any "hadith, islam, muslim, muhhamded, koran, quran, christianity, catholic, jewish, christian, religion, religious"
+        and
+        twitter.retweeted.user.description contains_any "quote, literature, poem, speak, word, life, belief"
+    )
+    
+    or
+    
+    (
+        twitter.user.description contains_any "school, schools, junior high, college, colleges,  university, universities, campus, campuses,  prep, preparatory, christian, catholic, jewish, religous, team, sport, lockerroom, gym, baseball, football, basketball, lacrosse, soccer"
+        and
+        twitter.user.description contains_any "confession, confessions, confessional, secret, story, life story, anonymous, anonymously"
+    )
+    
+    or
+    
+    (
+        twitter.retweeted.user.description contains_any "school, schools, junior high, college, colleges,  university, universities, campus, campuses,  prep, preparatory, christian, catholic, jewish, religous, team, sport, lockerroom, gym, baseball, football, basketball, lacrosse, soccer"
+        and
+        twitter.retweeted.user.description contains_any "confession, confessions, confessional, secret, story, life story, anonymous, anonymously"
+    )
+)

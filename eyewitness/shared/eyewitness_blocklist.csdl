@@ -1,0 +1,119 @@
+//second-hand context
+interaction.content contains_any "so\,, apparently, according to, reports, reportedly, breaking, got word, word is, found out, find out, can't believe, told me, i guess"
+or
+//metaphoric context
+interaction.content contains_any "it's like, feels like, look like, i feel like, is like, as long as, as if"
+or
+//old context
+interaction.content contains_any "remember when, every time, everytime, once, one day, that day, year since, years since, yesterday"
+or
+//sports teams and language
+interaction.content contains_any "hawks, celtics, bobcats, bulls, cavaliers, mavericks, nuggets, pistons, warriors, rockets, pacers, clippers, lakers, grizzlies, heat, bucks, timberwolves, nets, pelicans, knicks, thunder, magic, sixers, suns, blazers,kings,spurs,raptors,jazz,wizards,ghost,ghosts, nbadraft, golf, golfing, nba, three-point, three point, 3 point 3-point, 3point, pointer, pts, slam, penalty, penalties, game, gamer, gamers, gaming, multiplayer, first-person, rpg, mmp, ommp, basket, baskets, half-court, half court, ball, hoop, hoops, pool, skee, skeet, competition, athlete, athletes, athletics, sport, sports, baseball, basketball, football, soccer, bball, fball, rugby, lacrosse, auto racing, boxing, hockey, tennis, jersey, jerseys, fifa 14, xbox, ps4, playstation, 2k14, shooting guard, passer, rebounder, draft, lebron, free throw, free-throw, freethrow, 3-pt, fga, fgm, free throw, free throws, game, loss, losing, win, winning, won, play, match, points, field goal, fg, percent, percentage, pt, pts, score, scores, scoring, a foul, goal, goals"
+or
+interaction.content regex_partial "^(@\\w+)?( )?(when |if |When |If )"
+or
+//copied relevant info from news blocklist, instead of streaming it.
+(
+    interaction.content contains_any "lewis katz, lewiskatz, video game, just cause, call of duty, cod, ghost, ghosts, walking dead, breaking bad, grand theft auto, gta, grandtheftauto, remix, song, songs, remixes, horoscope, aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces, best new country, of tears, ca$h, coba, ca$h coba, on this day, on this date, this day, this date, reflect, reflecting, imagine, imagining, look back on, looking back on, official video, minecraft, please, god bless, heartbreak, heartbreaking, thinking of, charity, charities, heart, heartache, grief, grieving, sad, sadness, do my part, do one's part, in case, pray, prayers, praying, donate, donation, donations, donating, episode, episodes, show, tv shows, character, characters, guest star, guest stars, cast, casting, spoil, spoiler, spoilers, season, seasons, opening scene, end scene, kill it, kills it, killed it, killing it, killin it, killin' it"
+    or
+    twitter.mentions in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN"
+    or
+    twitter.retweet.mentions in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN"
+    or
+    twitter.retweeted.user.screen_name in "centuryagotoday, TodayinLDShist,  todaysdocument, theonion, sickipediabot, murderprobs, mjjpeace, bieberrkfc, femalegossip, thatmznews, the_iiiuminatii, 1061thetwister, thetwisterokc, natgeo, qikipedia, googleearthpics, upworthy, theracedraft, the_race_draft, notsportscenter, realtimewwii, djkingassassin, tommcfly, heyyouapp, johncena, tedofficialpage, sexrelationship, Mojahedin, MojahedinIran, PMOI_IRAN"
+)
+or
+(
+    interaction.author.username substr "history"
+    or
+    twitter.retweeted.user.screen_name substr "history"
+    or
+    interaction.author.username substr "pic"
+    or
+    twitter.retweeted.user.screen_name substr "pic"
+    or
+    interaction.author.username substr "fact"
+    or
+    twitter.retweeted.user.screen_name substr "fact"
+    or
+    interaction.author.username substr "comedy"
+    or
+    twitter.retweeted.user.screen_name substr "comedy"
+    or
+    interaction.author.username substr "joke"
+    or
+    twitter.retweeted.user.screen_name substr "joke"
+    or
+    interaction.author.username substr "humor"
+    or
+    twitter.retweeted.user.screen_name substr "humor"
+    or
+    interaction.author.username substr "funny"
+    or
+    twitter.retweeted.user.screen_name substr "funny"
+    or
+    interaction.author.username substr "funniest"
+    or
+    twitter.retweeted.user.screen_name substr "funniest"
+    or
+    interaction.author.username substr "vine"
+    or
+    twitter.retweeted.user.screen_name substr "vine"
+    or
+    (
+        interaction.author.username substr "grumpy"
+        and
+        interaction.author.username substr "cat"
+    )
+    or
+    (
+        twitter.retweeted.user.screen_name substr "grumpy"
+        and
+        twitter.retweeted.user.screen_name substr "cat"
+    )
+    or
+    interaction.content substr "walking dead"
+    or
+    interaction.content substr "walkingdead"
+)
+
+or
+(
+    interaction.content contains_any "aid,relief,hope,hopes,hoping"
+    and
+    interaction.content contains_any "help,helps,helping,contribute,contributed,text"
+)
+or
+// spam accounts
+(
+    (
+        // blocking the individual user
+        twitter.user.friends_count <= 3
+        or
+        twitter.user.followers_count <= 3
+    )
+    and not
+    twitter.user.verified ==1
+)
+or
+(
+    (
+        // blocking the RTed user
+        twitter.retweeted.user.friends_count <= 3
+        or
+        twitter.retweeted.user.followers_count <= 3
+    )
+    and not
+    twitter.retweeted.user.verified ==1
+)
+or
+(
+    (
+        // blocking the user who is RTing
+        twitter.retweet.user.friends_count <= 3
+        or
+        twitter.retweet.user.followers_count <= 3
+    )
+    and not
+    twitter.retweet.user.verified ==1
+)

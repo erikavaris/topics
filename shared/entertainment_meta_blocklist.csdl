@@ -1,0 +1,25 @@
+// metadata blocking fields specifically for entertainment topics
+links.meta.keywords contains_any "kpop, k-pop, kpop, allkpop, k-drama, korea, korean, india, indian, bollywood, nollywood, jpop, j-pop, japan, japanese, asian, porn"
+or
+links.meta.newskeywords contains_any "kpop, k-pop, kpop, allkpop, k-drama, korea, korean, india, indian, bollywood, nollywood, jpop, j-pop, japan, japanese, asian, porn"
+or
+links.meta.opengraph.site_name contains_any "nigeria, nigeria's, nigerian"
+or
+links.meta.keywords contains_any "nigeria, nigeria's, nigerian"
+or
+(
+    links.meta.keywords contains_any "download, downloads"
+    and
+    links.meta.keywords contains_any "file, files, link, links, mp3, mp3s, video, videos"
+)
+or
+(
+    links.title contains_any "download, downloads"
+    and
+    links.title contains_any "file, files, mp3, mp3s, video, videos"
+)
+or
+links.meta.keywords contains_any "tix, tixs"
+or
+links.title contains_any "tix, tixs"
+
